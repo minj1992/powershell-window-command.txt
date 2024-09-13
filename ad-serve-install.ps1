@@ -1,3 +1,4 @@
+#2019 winodw server
 #https://chatgpt.com/share/66e44a42-b424-8009-92fe-c7ffd0295a3a
 # Variables
 $NewComputerName = "app010w001"
