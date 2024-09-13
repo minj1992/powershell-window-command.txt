@@ -1,0 +1,29 @@
+
+change computer name powershell:
+Rename-Computer -NewName "app010w001" -Force -Restart
+
+
+-------------------------------- change window server local password not ad password-------------------------
+1) prompt based 
+change the password for the local Administrator user in PowerShell, you can use the Set-LocalUser cmdlet. Here's the command:
+
+
+$Password = Read-Host -AsSecureString "Enter new password prompt will come"
+Set-LocalUser -Name "Administrator" -Password $Password
+
+Explanation:
+Read-Host -AsSecureString: This prompts you to enter a new password securely (without displaying it in plain text).
+Set-LocalUser -Name "Administrator" -Password $Password: This sets the password for the local user account named Administrator.
+Alternatively, you can provide the password directly in the script like this:
+
+2) without prompt based direct
+below command will directly take the password no prompt will come it wil take it from valrable ------------->
+
+powershell
+Copy code
+$Password = ConvertTo-SecureString "Login%123456" -AsPlainText -Force
+Set-LocalUser -Name "Administrator" -Password $Password
+
+
+
+---------------------------
