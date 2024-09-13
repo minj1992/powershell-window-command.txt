@@ -51,4 +51,24 @@ Set-DnsClientServerAddress -InterfaceAlias $adapter -ServerAddresses $privateIP
 # Verify the DNS settings
 Get-DnsClientServerAddress -InterfaceAlias $adapter
 
------------------------------------------------------------------
+-----------------------------------------------------------------powershell script to promote ad server after domain service and dns server install ---------------
+
+#
+# Windows PowerShell script for AD DS Deployment
+#
+
+Import-Module ADDSDeployment
+Install-ADDSForest `
+-CreateDnsDelegation:$false `
+-DatabasePath "C:\Windows\NTDS" `
+-DomainMode "WinThreshold" `
+-DomainName "minjtech.xyz" `
+-DomainNetbiosName "MINJTECH" `
+-ForestMode "WinThreshold" `
+-InstallDns:$true `
+-LogPath "C:\Windows\NTDS" `
+-NoRebootOnCompletion:$false `
+-SysvolPath "C:\Windows\SYSVOL" `
+-Force:$true
+
+
