@@ -1,4 +1,5 @@
-
+1) chnage compute name :
+-------------------------
 change computer name powershell:
 Rename-Computer -NewName "app010w001" -Force -Restart
 
