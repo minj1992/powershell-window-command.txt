@@ -28,3 +28,27 @@ Set-LocalUser -Name "Administrator" -Password $Password
 
 
 ---------------------------
+powershell command to get the system private ip of winodw server:
+(Get-NetIPAddress -AddressFamily IPv4 | Where-Object { $_.IPAddress -notlike '169.254*' -and $_.InterfaceAlias -notlike "Loopback*" }).IPAddress
+
+
+------------------settingup ncp ipv4 dns ip address ------------------------------------
+# Get the private IP address (exclude link-local addresses and loopback)
+$privateIP = (Get-NetIPAddress -AddressFamily IPv4 | Where-Object {
+    $_.IPAddress -notlike '169.254*' -and $_.InterfaceAlias -notlike "Loopback*"
+}).IPAddress
+
+# Display the private IP
+$privateIP
+
+# Set the preferred DNS server for the adapter that holds this IP
+$adapter = Get-NetIPAddress -AddressFamily IPv4 | Where-Object {
+    $_.IPAddress -eq $privateIP
+} | Select-Object -ExpandProperty InterfaceAlias
+
+Set-DnsClientServerAddress -InterfaceAlias $adapter -ServerAddresses $privateIP
+
+# Verify the DNS settings
+Get-DnsClientServerAddress -InterfaceAlias $adapter
+
+-----------------------------------------------------------------
