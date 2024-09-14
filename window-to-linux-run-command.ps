@@ -1,0 +1,39 @@
+#for single server:
+# Define variables
+$remoteIp = "3.111.33.30"  # IP address of the Linux server
+$username = "ubuntu"       # Username for the Linux server
+$password = "12345"        # Password for the Linux server
+$command = "sudo cp -rf /etc /home/ubuntu/"         # Command to run on the remote server
+
+# Create secure credentials
+$secPass = $password | ConvertTo-SecureString -AsPlainText -Force
+$credential = New-Object PSCredential($username, $secPass)
+
+# Import POSH-SSH module
+Import-Module POSH-SSH
+
+# Establish SSH session and run command
+Try {
+    # Create SSH session
+    $session = New-SSHSession -ComputerName $remoteIp -Credential $credential -AcceptKey -ConnectionTimeout 50000
+    
+    # Run command on remote server
+    $result = Invoke-SSHCommand -SSHSession $session -Command $command -Timeout 10000
+    
+    # Check command result and print output
+    If ($result.ExitStatus -ne 0) {
+        Write-Warning ("Command execution failed on ${remoteIp} with ExitStatus ${($result.ExitStatus)}. Output: ${($result.Error)}")
+    } Else {
+        Write-Host ("Command output from ${remoteIp}:`n${($result.Output)}")
+    }
+}
+Catch {
+    # Handle exceptions
+    Write-Warning ("Error occurred while connecting to ${remoteIp}: ${($_.Exception.Message)}")
+}
+Finally {
+    # Close SSH session
+    If ($session) {
+        $session | Remove-SSHSession | Out-Null
+    }
+}
