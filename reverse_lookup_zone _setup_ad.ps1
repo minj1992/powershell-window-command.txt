@@ -1,4 +1,4 @@
-# crearet the pt uing forward look up zone both a recored righ lick and update after running the script will reoslve the issue 
+# after script execution at the end manuully crearet the pt uing forward look up zone both a recored righ lick and update after running the script will reoslve the issue 
 # Define the domain name
 $DomainName = "minjtech.xyz"
 
